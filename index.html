@@ -113,7 +113,6 @@
     transition:transform .12s ease;
   }
   .icon-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.35);}
-  #btn-sound{margin-top:6px;}
 
   .screen{display:none;flex-direction:column;align-items:center;flex:1;}
   .screen.active{display:flex;}
@@ -322,7 +321,6 @@
   <div class="topbar">
     <button class="icon-btn" id="btn-back" title="חזרה לבחירת רמה" aria-label="חזרה לבחירת רמה" style="visibility:hidden;">↩</button>
     <span class="kicker" id="header-kicker" style="visibility:hidden;">משחק זיכרון קסום</span>
-    <button class="icon-btn" id="btn-sound" title="צלילים" aria-label="הפעלה/השתקה של הצלילים">🔊</button>
   </div>
 
   <!-- START SCREEN -->
@@ -421,7 +419,6 @@
     shelf: document.getElementById('shelf'),
     levelList: document.getElementById('level-list'),
     btnBack: document.getElementById('btn-back'),
-    btnSound: document.getElementById('btn-sound'),
     statMoves: document.getElementById('stat-moves'),
     statTime: document.getElementById('stat-time'),
     winStars: document.getElementById('win-stars'),
@@ -959,11 +956,15 @@
   });
   els.btnReplay.addEventListener('click', function(){ startLevel(state.levelId); });
   els.btnLevels.addEventListener('click', function(){ showScreen('screen-start'); });
-  els.btnSound.addEventListener('click', function(){
-    state.soundOn = !state.soundOn;
-    els.btnSound.textContent = state.soundOn ? '🔊' : '🔇';
-    if(state.soundOn){ ensureAudio(); }
-  });
+  /* The mute button is gone (Hani, 2026-08-25).
+
+     A four-year-old sees a loudspeaker and expects pressing it to MAKE a sound. They press, the
+     sound disappears, and they have no idea how to get it back — the game goes quiet and stays
+     quiet, and nobody knows why. A phone already has volume buttons for the one person who
+     actually wants silence.
+
+     state.soundOn is kept and stays true. Four places ask it before playing anything, and
+     leaving it in place means none of them had to be touched. */
 
   buildDecor();
   loadBests();
